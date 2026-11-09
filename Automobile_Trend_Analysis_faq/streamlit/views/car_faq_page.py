@@ -1,8 +1,4 @@
 import streamlit as st
-import re
-import streamlit as st
-import pandas as pd
-from sqlalchemy import create_engine
 
 def fetch_qa_data():
     # 데이터베이스에서 Q&A 데이터 가져오기
@@ -38,7 +34,11 @@ def car_faq_page():
         st.session_state.active_qa = None
 
     # 데이터베이스에서 Q&A 데이터 가져오기
-    df_corp, df_faq = fetch_qa_data()
+    try:
+        _, df_faq = fetch_qa_data()
+    except Exception:
+        st.info("DB 연결이 없습니다. .streamlit/secrets.example.toml을 참고해 로컬 DB를 설정하세요.")
+        return
     qa_data = process_qa_data(df_faq)
 
     # 버튼 생성 및 토글 기능 구현
@@ -66,7 +66,7 @@ def car_faq_page():
                 # 문자열로 변환하여 검색
                 question = str(qa['question'])
                 answer = str(qa['answer'])
-                if re.search(search_query, question, re.IGNORECASE) or re.search(search_query, answer, re.IGNORECASE):
+                if search_query.casefold() in question.casefold() or search_query.casefold() in answer.casefold():
                     with st.expander(question, expanded=False):
                         st.write(answer)
                     found = True

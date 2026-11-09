@@ -17,3 +17,9 @@
 4. 공유용 결과물에는 원본 데이터나 비밀키 대신 재현 절차와 제한 사항을 남깁니다.
 
 새 프로젝트를 여기에 추가하기보다, 가장 설명력이 좋은 결과 하나를 별도 저장소로 발전시키고 이 목차에서 연결합니다.
+
+**현재 실행 가능한 예제:** [챗봇 서버 배포](Chatbot_Deployment_aws/README.md)의 Django 시연 경로는 가상 문서 검색과 선택적인 현재 OpenAI API 호출로 갱신했습니다. 2024년 모델·검색 파일과 스크린샷은 프로젝트 기록으로 유지합니다.
+
+- [기업 정보 검색 챗봇](Enterprise_Info_Chatbot/README.md)의 Streamlit 화면은 같은 가상 문서 검색 로직을 사용합니다.
+- [고객 이탈 예측](Customer_Churn_Prediction/README.md)에는 정답이 있는 학습 데이터만으로 평가하는 재현 가능한 기준선을 추가했습니다.
+- [자동차 트렌드 분석·FAQ](Automobile_Trend_Analysis_faq/README.md)는 DB 설정을 로컬 파일로 분리했습니다. DB와 외부 수집 사이트가 없으면 데이터 조회는 실행되지 않습니다.

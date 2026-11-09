@@ -1,5 +1,7 @@
 # ReadMe
 
+> **2026-11 재현 경로:** 아래 2024년 실험과 점수는 당시 기록입니다. 현재 확인용 기준선은 `baseline.py`입니다. Python 3.11 환경에서 `pip install -r baseline-requirements.txt` 후 `python baseline.py`를 실행하면 `train.csv`만 층화 분리해 로지스틱 회귀를 학습·검증합니다. 제공된 `test.csv`의 `Churn`은 전부 비어 있어 테스트 점수를 낼 수 없습니다. 전처리는 학습 부분에만 맞추고 `CustomerID`는 예측 변수에서 제외합니다. 정밀도·재현율·F1·평균 정밀도·ROC AUC를 함께 출력합니다. 이 데이터의 원본 출처·수집 조건을 별도로 확인하기 전에는 실제 고객 유지 의사결정에 사용하지 마세요. [scikit-learn의 데이터 누수 안내](https://scikit-learn.org/stable/common_pitfalls)와 [정밀도·재현율 설명](https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html)을 반영했습니다.
+
 ### **SKN04-2nd-4Team**
 
 # **고객 이탈 예측 모델**

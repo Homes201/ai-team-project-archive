@@ -1,5 +1,7 @@
 # 👑SK네트웍스 4기_6조👑
 
+> **2026-11 실행 안내:** 아래 본문은 2024년 팀 프로젝트 기록입니다. 로컬에서는 Python 3.11 환경에 `pip install -r requirements.txt`를 실행하고, `streamlit/.streamlit/secrets.example.toml`을 참고해 **본인 DB 정보**를 `streamlit/.streamlit/secrets.toml`에 저장한 뒤 `cd streamlit; streamlit run main.py`로 화면을 엽니다. DB가 없으면 첫 화면과 설정 안내를 볼 수 있으며 실제 차량·FAQ 조회는 할 수 없습니다. 수집을 다시 실행하면 테이블이 교체되므로 환경 변수 `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_NAME`을 설정한 뒤 `python crawling/runner.py --replace`를 명시적으로 실행하세요. 예전 사이트 구조와 수집 API가 바뀌었을 수 있어 수집 성공은 보장하지 않습니다. 저장소에서 과거 DB 설정 파일을 제거했으며 재사용한 비밀번호가 있다면 교체해야 합니다.
+
 <hr>
 
 ### 😇 팀 소개

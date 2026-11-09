@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -105,9 +105,9 @@
             const result = document.getElementById('result');
 
             if (question.trim() === "") {
-                result.innerHTML = "<div class='warning'>💡 질문을 입력해 주세요.</div>";
+                result.textContent = "💡 질문을 입력해 주세요.";
             } else {
-                result.innerHTML = "답변을 찾는 중입니다...";
+                result.textContent = "답변을 찾는 중입니다...";
 
                 fetch('/query/', {
                     method: 'POST',
@@ -120,13 +120,13 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.response) {
-                        result.innerHTML = `<div>${data.response}</div>`;
+                        result.textContent = data.response;
                     } else if (data.error) {
-                        result.innerHTML = `<div class='warning'>${data.error}</div>`;
+                        result.textContent = data.error;
                     }
                 })
                 .catch(error => {
-                    result.innerHTML = `<div class='warning'>오류가 발생했습니다: ${error}</div>`;
+                    result.textContent = "연결 오류가 발생했습니다.";
                 });
             }
         }
@@ -137,8 +137,9 @@
     <img src="https://github.com/user-attachments/assets/44e55662-1d8e-4159-8834-72b135461411" alt="Logo">
     <h1>🤖 Welcome on board</h1>
     <p>사수에게 물어보기 애매한 사항들을 질문해주세요 😊</p>
+    <p>가상 문서로 동작하는 시연용 화면입니다. 실제 회사 규정으로 사용하지 마세요.</p>
 
-    <input type="text" id="question" placeholder="질문을 입력하세요 (최대 100자)" maxlength="100">
+    <input type="text" id="question" placeholder="질문을 입력하세요 (최대 500자)" maxlength="500">
     <br>
     <button onclick="findAnswer()">🔍 답변 찾기</button>
     <div id="result"></div>
@@ -146,39 +147,19 @@
     <div class="faq-section">
         <h2>자주 묻는 질문 (FAQ)</h2>
         <div class="faq" onclick="toggleFAQ(1)">
-            Q1: 휴가 정책이 어떻게 되나요?
+            Q1: 휴가는 어떻게 신청하나요?
         </div>
         <div class="faq-content" id="faq-content-1">
-            A: 신입사원은 첫 해에 연차 15일이 부여됩니다. 그 외의 정책은 내부 규정을 따릅니다.
+            A: 가상 시연 문서에서는 희망 날짜를 입력하고 담당자의 승인을 기다립니다.
         </div>
 
         <div class="faq" onclick="toggleFAQ(2)">
-            Q2: 출퇴근 시간은 어떻게 되나요?
+            Q2: 교육은 어떻게 신청하나요?
         </div>
         <div class="faq-content" id="faq-content-2">
-            A: 일반적인 출퇴근 시간은 오전 9시부터 오후 6시까지입니다. 유연근무제가 제공됩니다.
+            A: 가상 시연 문서에서는 교육 담당자에게 교육명과 희망 일정을 전달합니다.
         </div>
 
-        <div class="faq" onclick="toggleFAQ(3)">
-            Q3: 복리후생에 어떤 혜택이 포함되나요?
-        </div>
-        <div class="faq-content" id="faq-content-3">
-            A: 복리후생에는 식사 지원, 건강검진, 경조사비, 복지 포인트 등이 포함됩니다.
-        </div>
-
-        <div class="faq" onclick="toggleFAQ(4)">
-            Q4: 사내 교육 프로그램에 대해 알고 싶어요!
-        </div>
-        <div class="faq-content" id="faq-content-4">
-            A: 본사에서는 신입사원 및 직무별 교육 프로그램을 제공하고 있으며, 연수 프로그램도 운영됩니다.
-        </div>
-
-        <div class="faq" onclick="toggleFAQ(5)">
-            Q5: 승진 제도는 어떻게 운영되나요?
-        </div>
-        <div class="faq-content" id="faq-content-5">
-            A: 승진은 연간 평가 결과와 회사 내부 규정을 바탕으로 결정됩니다.
-        </div>
     </div>
 </body>
 </html>

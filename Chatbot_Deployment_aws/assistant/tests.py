@@ -1,36 +1,38 @@
-from django.test import TestCase, Client
-from bs4 import BeautifulSoup
 import json
+import os
+from unittest.mock import patch
+
+from django.test import Client, TestCase
+from llm.llm import NO_ANSWER, answer_question
+
 
 class AssistantAppTests(TestCase):
     def setUp(self):
-        self.client = Client()
+        self.client = Client(enforce_csrf_checks=True)
 
-    def test_index_view(self):
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
-        bs = BeautifulSoup(response.content, 'html.parser')
-        self.assertTrue(bs.find('title'))
-        self.assertIn('Welcome', bs.text)
+    def test_page_and_csrf_protection(self):
+        page = self.client.get("/")
+        self.assertEqual(page.status_code, 200)
+        self.assertContains(page, "가상 문서")
+        self.assertEqual(self.client.post("/query/", data="{}", content_type="application/json").status_code, 403)
 
-    def test_get_response(self):
-        url = '/query/'
+    @patch("assistant.views.answer_question", return_value="가상 답변")
+    def test_query_validation_and_response(self, answer):
+        self.client.get("/")
+        token = self.client.cookies["csrftoken"].value
+        headers = {"HTTP_X_CSRFTOKEN": token}
+        valid = self.client.post("/query/", data=json.dumps({"query": "휴가는?"}),
+                                 content_type="application/json", **headers)
+        self.assertEqual(valid.status_code, 200)
+        self.assertEqual(valid.json()["response"], "가상 답변")
+        self.assertEqual(answer.call_count, 1)
+        invalid = self.client.post("/query/", data=json.dumps({"query": ""}),
+                                   content_type="application/json", **headers)
+        self.assertEqual(invalid.status_code, 400)
+        malformed = self.client.post("/query/", data="{", content_type="application/json", **headers)
+        self.assertEqual(malformed.status_code, 400)
 
-        valid_data = {'query': 'Hello, how are you?'}
-        valid_response = self.client.post(
-            url, 
-            data=json.dumps(valid_data), 
-            content_type='application/json'
-        )
-        self.assertEqual(valid_response.status_code, 200)
-        self.assertIn('response', valid_response.json())
-
-        # Case 2: Invalid POST request
-        invalid_data = {'query': ''}
-        invalid_response = self.client.post(
-            url, 
-            data=json.dumps(invalid_data), 
-            content_type='application/json'
-        )
-        self.assertEqual(invalid_response.status_code, 400)
-        self.assertIn('error', invalid_response.json())
+    def test_offline_answer_uses_sample_document_and_abstains(self):
+        with patch.dict(os.environ, {"OPENAI_API_KEY": ""}):
+            self.assertIn("sample_policy.txt", answer_question("휴가는 어떻게 신청하나요?"))
+            self.assertEqual(answer_question("급여는 언제 지급하나요?"), NO_ANSWER)
