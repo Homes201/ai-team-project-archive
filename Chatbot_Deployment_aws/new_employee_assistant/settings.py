@@ -16,19 +16,19 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+from django.core.management.utils import get_random_secret_key
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', "django-insecure-70vc8wr2^r^85z*+7--!*9r%8$+q0^^38y&k1qffbt8yang2t9")
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', True)
-
-if os.environ.get('DJANGO_ALLOWED_HOSTS'):
-    ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(' ')
-else:
-    ALLOWED_HOSTS = []
+DEBUG = os.environ.get("DJANGO_DEBUG", "0") == "1"
+IS_PRODUCTION = os.environ.get("DJANGO_PRODUCTION", "0") == "1"
+# An ephemeral key lets the local demo start without a checked-in secret.
+# Deployments must set a persistent DJANGO_SECRET_KEY.
+if IS_PRODUCTION and not os.environ.get("DJANGO_SECRET_KEY"):
+    raise RuntimeError("DJANGO_SECRET_KEY is required in production")
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY") or get_random_secret_key()
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,testserver").split(",")
+SECURE_SSL_REDIRECT = IS_PRODUCTION
+SESSION_COOKIE_SECURE = IS_PRODUCTION
+CSRF_COOKIE_SECURE = IS_PRODUCTION
 
 
 # Application definition
@@ -110,9 +110,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ko-kr"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 

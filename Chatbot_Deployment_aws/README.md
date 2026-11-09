@@ -1,4 +1,15 @@
 # 🚄BRT🚄
+
+> **2026-11 실행 안내:** 아래의 2024년 프로젝트 설명·스크린샷은 당시 기록입니다. 현재 `manage.py`로 실행하는 코드는 `llm/documents/*.txt`의 **가상 시연 문서**를 검색합니다. API 키가 없으면 찾은 문단을 출처와 함께 표시하고, `OPENAI_API_KEY`를 설정하면 [OpenAI Responses API](https://developers.openai.com/api/docs/quickstart)로 문서 범위 내 답변을 생성합니다. 실제 사내 규정이나 예전 저장된 Chroma/피클 파일은 자동으로 읽지 않습니다.
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\python -m pip install -r requirements.txt
+.\.venv\Scripts\python manage.py test assistant
+.\.venv\Scripts\python manage.py runserver 127.0.0.1:8000
+```
+
+브라우저에서 `http://127.0.0.1:8000`을 엽니다. 본인 문서를 시험하려면 민감정보를 제거한 UTF-8 `.txt`를 `llm/documents/`에 넣고 평가 질문을 작성하세요. 배포 시에는 `DJANGO_PRODUCTION=1`, `DJANGO_SECRET_KEY`, `DJANGO_ALLOWED_HOSTS`, `OPENAI_API_KEY`, `OPENAI_MODEL`을 환경 변수로 설정하고 [Django 배포 점검표](https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/)를 확인하세요. 이 예제에는 사용자 인증·요청 한도·정식 권한 검사가 없으므로 공개 서비스로 바로 배포할 수 없습니다. `llm/db.py`, `llm/utils.py`, `save/`는 당시 구현 기록이며 현재 실행 경로에서 사용하지 않습니다.
 <p align="center"><img src="https://github.com/user-attachments/assets/07d57116-3f72-4a06-90c4-ed257ed60333" width="1000" height="300"/></p>
 <hr>
 

@@ -1,5 +1,5 @@
 import psycopg2
-from sqlalchemy import create_engine, text
+from sqlalchemy import URL, create_engine, text
 from sqlalchemy.types import Integer, Text, String, DateTime, VARCHAR
 from registered_car import registrated_car_crawler
 from faq.kia_faq import kia_faq_crawl
@@ -8,7 +8,10 @@ import pandas as pd
 
 
 def create_db_engine(**kwargs):
-    db_url = f"postgresql+psycopg2://{kwargs.get('name')}:{kwargs.get('password')}@{kwargs.get('host')}:{kwargs.get('port')}/{kwargs.get('db_name')}"
+    db_url = URL.create(
+        "postgresql+psycopg2", username=kwargs["name"], password=kwargs["password"],
+        host=kwargs["host"], port=kwargs["port"], database=kwargs["db_name"],
+    )
     engine = create_engine(db_url)
     return engine
 

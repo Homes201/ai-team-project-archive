@@ -1,5 +1,7 @@
 # 🚄 BRT: GPT 기반 신입사원 Q&A 챗봇
 
+> **현재 실행 안내 (2026-11):** 이 디렉터리의 `main.py`는 중복된 2024년 LangChain/Chroma 코드를 실행하지 않고 [Django 예제의 공통 문서 검색](../Chatbot_Deployment_aws/llm/llm.py)을 사용합니다. 저장소 루트에서 `py -3.11 -m pip install -r Enterprise_Info_Chatbot/requirements.txt` 후 `py -3.11 -m streamlit run Enterprise_Info_Chatbot/main.py`를 실행합니다. 기본은 가상 문서의 오프라인 근거 표시이며, `OPENAI_API_KEY`를 설정하면 Responses API를 사용합니다. 아래 당시의 모델·화면·결과 설명은 역사적 기록입니다. `llm.py`, `db.py`, `save/`의 옛 구현은 현재 실행 경로에서 사용하지 않습니다.
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/19fa9782-5046-4bb4-b383-6cf727140fb4" width="1000"/>
 </p>

@@ -1,15 +1,2 @@
-Django>=4.2
-djangorestframework
-psycopg2-binary
-python-dotenv
-openai
-Pillow
-joblib
-rank_bm25
-langchain
-langchain-openai
-langchain-chroma
-langchain-core
-langchain-community
-chroma-hnswlib
-numpy
+Django>=5.2,<6
+openai>=2,<3

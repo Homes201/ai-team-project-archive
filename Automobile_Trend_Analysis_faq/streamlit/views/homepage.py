@@ -1,6 +1,4 @@
 import pandas as pd
-import json
-import requests
 import streamlit as st
 from datetime import datetime
 
@@ -19,10 +17,25 @@ def hompage():
     # 데이터 로드 및 필터링
     if st.button('조회'):
         if start_date and end_date:
-            conn = st.connection('postgresql', type='sql')
-            start_date_ = format_date(start_date, '%Y-%m-%d')
-            end_date_ = format_date(end_date, '%Y-%m-%d')
-            df = conn.query(f"SELECT * FROM registererd_car WHERE date >= '{start_date_}' AND date <= '{end_date_}'")
+            try:
+                start_month = datetime.strptime(start_date, '%Y%m')
+                end_month = datetime.strptime(end_date, '%Y%m')
+                if end_month < start_month:
+                    raise ValueError("end before start")
+            except ValueError:
+                st.error("시작·종료 날짜를 YYYYMM 형식으로, 시작이 종료보다 빠르게 입력하세요.")
+                return
+            next_month = datetime(end_month.year + (end_month.month == 12),
+                                  end_month.month % 12 + 1, 1)
+            try:
+                conn = st.connection('postgresql', type='sql')
+                df = conn.query(
+                    "SELECT * FROM registererd_car WHERE date >= :start AND date < :end",
+                    params={"start": start_month, "end": next_month}, ttl=0,
+                )
+            except Exception:
+                st.info("DB 연결이 없습니다. .streamlit/secrets.example.toml을 참고해 로컬 DB를 설정하세요.")
+                return
             #df = registrated_car_crawler(start_date, end_date)
             
             st.divider()
